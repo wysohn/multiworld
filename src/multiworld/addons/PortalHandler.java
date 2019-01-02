@@ -177,30 +177,21 @@ public abstract class PortalHandler implements Listener, MultiworldAddon, Settin
 					if (toWorld != null)
 					{
 						World.Environment toDim = toWorld.getEnvironment(), fromDim = event.getFrom().getWorld().getEnvironment();
-						if (toDim == World.Environment.THE_END)
-						{
-							Location loc = new Location(toWorld, 100, 54, 0);
-							loc = event.getPortalTravelAgent().findOrCreate(loc);
-							event.setTo(loc);
+						Location loc = toWorld.getSpawnLocation();
 
-						}
-						else
-						{
-							Entity ent = event.getEntity();
-							Location loc = null;
-							if (ent instanceof Player)
-							{
-								Player player = (Player) ent;
-								loc = player.getBedSpawnLocation();
-							}
-							if (loc == null || (!loc.getWorld().equals(toWorld)))
-							{
-								loc = toWorld.getSpawnLocation();
-							}
-							loc = event.getPortalTravelAgent().findOrCreate(loc);
-							event.setTo(loc);
+                        if (loc == null && event.getEntity() instanceof Player)
+                        {
+                            Player player = (Player) event.getEntity();
+                            loc = player.getBedSpawnLocation();
+                        }
 
+						if (loc == null && toDim == World.Environment.THE_END)
+						{
+						    Location copy = new Location(toWorld, 0, 50, 0);
+							loc = event.getPortalTravelAgent().findOrCreate(copy);
 						}
+
+                        event.setTo(loc);
 					}
 				}
 				this.logger.fine("[PortalHandler] [PortalType.END] used for entity " + event.getEntityType().toString().toLowerCase() + " to get to world " + toWorldString);

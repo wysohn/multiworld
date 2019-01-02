@@ -38,7 +38,9 @@ public class NetherPortalHandler extends PortalHandler
 		evt.setCancelled(event.isCancelled());
 		this.onPlayerPortal(evt);
 		event.setCancelled(evt.isCancelled());
-		event.setTo(evt.getTo());
+		if(evt.getTo() != null) {
+			event.setTo(evt.getTo());
+		}
 		event.setFrom(evt.getFrom());
 		event.setPortalTravelAgent(evt.getPortalTravelAgent());
 	}

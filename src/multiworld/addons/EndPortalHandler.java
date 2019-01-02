@@ -38,7 +38,10 @@ public class EndPortalHandler extends PortalHandler
 		evt.setCancelled(event.isCancelled());
 		this.onPlayerPortal(evt);
 		event.setCancelled(evt.isCancelled());
-		event.setTo(evt.getTo());
+		if(evt.getTo() != null) {
+			event.setTo(evt.getTo().add(0, 1, 0));
+			event.useTravelAgent(false);
+		}
 		event.setFrom(evt.getFrom());
 		event.setPortalTravelAgent(evt.getPortalTravelAgent());
 	}
